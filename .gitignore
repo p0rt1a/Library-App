@@ -1,0 +1,21 @@
+### Editors ###
+.idea
+*.vscode/
+
+### Server ###
+server/target/
+server/dist/
+server/build/
+*.iml
+*.ipr
+*.iws
+
+### App ###
+app/build/
+*.pub-cache
+*.pub/
+*.dart_tool/
+*.history
+*.class
+*.flutter-plugins
+*.flutter-plugins-dependencies
