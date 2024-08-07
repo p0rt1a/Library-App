@@ -9,6 +9,7 @@ server/build/
 *.iml
 *.ipr
 *.iws
+server/src/main/resources/application.properties
 
 ### App ###
 app/build/
