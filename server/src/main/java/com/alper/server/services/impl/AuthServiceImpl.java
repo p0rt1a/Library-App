@@ -42,7 +42,7 @@ public class AuthServiceImpl implements IAuthService {
             throw new Exception("User is already exists!");
         }
         String hashedPwd = BCrypt.hashpw(model.getPassword(), BCrypt.gensalt());
-        User newUser = User.builder().username(model.getUsername()).password(hashedPwd).email(model.getEmail()).build();
-        _userRepository.save(newUser);
+        User createdUser = User.builder().username(model.getUsername()).password(hashedPwd).email(model.getEmail()).build();
+        _userRepository.save(createdUser);
     }
 }
