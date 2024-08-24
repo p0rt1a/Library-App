@@ -43,6 +43,6 @@ public class PostsController {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
 
-        return (ResponseEntity<?>) ResponseEntity.ok();
+        return ResponseEntity.ok().build();
     }
 }
