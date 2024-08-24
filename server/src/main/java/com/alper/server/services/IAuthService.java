@@ -5,6 +5,6 @@ import com.alper.server.models.LoginModel;
 import com.alper.server.models.RegisterModel;
 
 public interface IAuthService {
-    public User login(LoginModel model);
-    public void register(RegisterModel model);
+    public User login(LoginModel model) throws Exception;
+    public void register(RegisterModel model) throws Exception;
 }

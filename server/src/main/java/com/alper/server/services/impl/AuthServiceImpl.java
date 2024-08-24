@@ -5,8 +5,11 @@ import com.alper.server.models.LoginModel;
 import com.alper.server.models.RegisterModel;
 import com.alper.server.repositories.IUserRepository;
 import com.alper.server.services.IAuthService;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class AuthServiceImpl implements IAuthService {
@@ -18,16 +21,28 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public User login(LoginModel model) {
-        //TODO encrypted pwd validation
-        return _userRepository.findByUsernameAndPassword(model.getUsername(), model.getPassword()).orElseThrow();
+    public User login(LoginModel model) throws Exception {
+        Optional<User> user = _userRepository.findByUsername(model.getUsername());
+        if (user.isEmpty()) {
+            throw new Exception("User not found!");
+        }
+        boolean isPasswordMatch = BCrypt.checkpw(model.getPassword(), user.get().getPassword());
+
+        if (!isPasswordMatch) {
+            throw new Exception("Invalid username or password!");
+        }
+
+        return user.get();
     }
 
     @Override
-    public void register(RegisterModel model) {
-        //TODO encrypt pwd
-        //TODO check is user already exists
-        User user = User.builder().username(model.getUsername()).password(model.getPassword()).email(model.getEmail()).build();
-        _userRepository.save(user);
+    public void register(RegisterModel model) throws Exception {
+        Optional<User> user = _userRepository.findByUsername(model.getUsername());
+        if (user.isPresent()) {
+            throw new Exception("User is already exists!");
+        }
+        String hashedPwd = BCrypt.hashpw(model.getPassword(), BCrypt.gensalt());
+        User newUser = User.builder().username(model.getUsername()).password(hashedPwd).email(model.getEmail()).build();
+        _userRepository.save(newUser);
     }
 }
