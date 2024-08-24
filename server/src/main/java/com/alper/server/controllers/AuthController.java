@@ -1,5 +1,6 @@
 package com.alper.server.controllers;
 
+import com.alper.server.entities.User;
 import com.alper.server.models.LoginModel;
 import com.alper.server.models.RegisterModel;
 import com.alper.server.services.IAuthService;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/authorization")
+@RequestMapping("/auth")
 public class AuthController {
     private final IAuthService _userService;
 
@@ -23,13 +24,12 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginModel model) {
         try {
-            _userService.login(model);
+            User user = _userService.login(model);
+            return ResponseEntity.ok().body(user);
         }
         catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
-
-        return (ResponseEntity<?>) ResponseEntity.ok();
     }
 
     @PostMapping("/register")
