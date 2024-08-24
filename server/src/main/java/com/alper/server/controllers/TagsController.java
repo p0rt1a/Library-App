@@ -1,34 +1,30 @@
 package com.alper.server.controllers;
 
 import com.alper.server.entities.Tag;
-import com.alper.server.repositories.ITagRepository;
+import com.alper.server.models.CreateTagModel;
+import com.alper.server.services.ITagService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
 @RequestMapping("/tags")
 public class TagsController {
-    @Autowired
-    ITagRepository _tagRepository;
-    @Autowired
-    MongoTemplate _mongoTemplate;
+    private final ITagService _tagService;
 
-    public TagsController(ITagRepository tagRepository, MongoTemplate mongoTemplate) {
-        this._tagRepository = tagRepository;
-        this._mongoTemplate = mongoTemplate;
+    @Autowired
+    public TagsController(ITagService tagService) {
+        this._tagService = tagService;
     }
 
     @GetMapping
-    public ResponseEntity<?> getAll() {
+    public ResponseEntity<?> getAll(@RequestParam String filter) {
         List<Tag> result = new ArrayList<>();
         try {
-            result = _tagRepository.findAll();
+            result = _tagService.getAll(filter);
         }
         catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
@@ -37,9 +33,9 @@ public class TagsController {
     }
 
     @PostMapping
-    public ResponseEntity<?> insert(@RequestBody Tag model) {
+    public ResponseEntity<?> insert(@RequestBody CreateTagModel model) {
         try {
-            _tagRepository.save(model);
+            _tagService.insert(model);
         }
         catch (Exception ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
