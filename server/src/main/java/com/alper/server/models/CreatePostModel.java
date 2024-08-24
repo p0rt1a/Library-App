@@ -9,5 +9,6 @@ import java.util.List;
 public class CreatePostModel {
     private String userID;
     private String image;
+    private String description;
     private List<Tag> tags;
 }

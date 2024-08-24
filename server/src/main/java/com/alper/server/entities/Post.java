@@ -18,6 +18,7 @@ public class Post {
     private User user;
     //TODO think about list of images?
     private String image;
-    private Date createdAt = new Date();
+    private String description;
+    private Date createdAt;
     private List<Tag> tags;
 }
