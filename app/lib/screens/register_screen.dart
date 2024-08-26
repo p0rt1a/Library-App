@@ -17,6 +17,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       backgroundColor: Colors.blue.shade50,
       appBar: AppBar(
+        elevation: 12,
         foregroundColor: Colors.white,
         backgroundColor: Colors.blue,
         title: const Text("Sign In"),
