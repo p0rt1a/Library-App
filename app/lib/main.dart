@@ -1,19 +1,50 @@
-import 'package:app/screens/home_screen.dart';
 // import 'package:app/services/web_socket_service.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
-  
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int _selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SafeArea(child: HomeScreen()),
+      home: Scaffold(
+        body: const [
+          Center(
+            child: Text("Home page works!"),
+          ),
+          Center(
+            child: Text("Add page works!"),
+          ),
+          Center(
+            child: Text("Profile page works!"),
+          )
+        ][_selectedIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+            BottomNavigationBarItem(icon: Icon(Icons.add_circle), label: "Paylaş"),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profil")
+          ],
+          currentIndex: _selectedIndex,
+          onTap: (val) {
+            setState(() {
+              _selectedIndex = val;
+            });
+          },
+        ),
+      ),
     );
   }
 }
